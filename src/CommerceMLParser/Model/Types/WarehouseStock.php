@@ -21,7 +21,7 @@ class WarehouseStock extends Model implements IdModel
 {
     /** @var string ИдСклада */
     protected $id;
-    /** @var int КоличествоНаСкладе */
+    /** @var float КоличествоНаСкладе */
     protected $quantity;
 
     /**
@@ -43,7 +43,7 @@ class WarehouseStock extends Model implements IdModel
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getQuantity()
     {

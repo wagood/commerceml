@@ -9,7 +9,7 @@ use CommerceMLParser\ORM\Collection;
 
 class Offer extends Product
 {
-    /** @var int Количество */
+    /** @var float Количество */
     protected $quantity;
     /** @var Collection|Price[] Цены  */
     protected $prices;
@@ -38,7 +38,7 @@ class Offer extends Product
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getQuantity()
     {
