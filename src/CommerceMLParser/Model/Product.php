@@ -20,6 +20,8 @@ class Product extends Model implements IdModel
     protected $id;
     /** @var string */
     protected $name;
+    /** @var bool */
+    protected $delmark;
     /** @var string */
     protected $description;
     /** @var Collection|string[]  */
@@ -64,6 +66,7 @@ class Product extends Model implements IdModel
 
         $this->id = (string)$xml->Ид;
         $this->name = (string)$xml->Наименование;
+        $this->delmark = (string)$xml->ПометкаУдаления === 'true';
         $this->description = (string)$xml->Описание;
         $this->sku = (string)$xml->Артикул;
         $this->barcode = (string)$xml->Штрихкод;
@@ -134,6 +137,14 @@ class Product extends Model implements IdModel
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDelmark()
+    {
+        return $this->delmark;
     }
 
     /**
