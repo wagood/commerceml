@@ -9,7 +9,7 @@ use CommerceMLParser\ORM\Collection;
 
 class Offer extends Product
 {
-    /** @var int Количество */
+    /** @var float Количество */
     protected $quantity;
     /** @var Collection|Price[] Цены  */
     protected $prices;
@@ -23,6 +23,10 @@ class Offer extends Product
         $this->prices = new Collection();
         $this->warehouses = new Collection();
         $this->quantity = (float)$xml->Количество;
+
+        if($xml->Остатки && $xml->Остатки->Остаток && (float)$xml->Остатки->Остаток->Количество) {
+            $this->quantity = (float)$xml->Остатки->Остаток->Количество;
+        }
 
         if ($xml->Цены) {
             foreach ($xml->Цены->Цена as $price) {
@@ -38,7 +42,7 @@ class Offer extends Product
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getQuantity()
     {

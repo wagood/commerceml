@@ -17,6 +17,8 @@ class Category extends Model implements IdModel, HasChild
     protected $id;
     /** @var string $name */
     protected $name;
+    /** @var bool */
+    protected $delmark;
     /** @var string $parent */
     protected $parent;
     /** @var CategoryCollection|Category[]  */
@@ -36,6 +38,7 @@ class Category extends Model implements IdModel, HasChild
 
         $this->id = (string) $xml->Ид;
         $this->name = (string) $xml->Наименование;
+        $this->delmark = (string) $xml->ПометкаУдаления === 'true';
         $this->categories = new CategoryCollection();
         $this->properties = new PropertyCollection();
         if ($xml->Свойства) {
@@ -59,6 +62,14 @@ class Category extends Model implements IdModel, HasChild
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDelmark()
+    {
+        return $this->delmark;
     }
 
     /**
