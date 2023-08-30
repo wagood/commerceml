@@ -1,17 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivan Koretskiy aka gillbeits[at]gmail.com
- * Date: 17.12.15
- * Time: 12:31
- */
-
 namespace CommerceMLParser\Model\Types;
-
 
 use CommerceMLParser\Model\Interfaces\IdModel;
 use CommerceMLParser\Model\Traits\PartnerProperty;
-use CommerceMLParser\Model\Types\Address;
 use CommerceMLParser\ORM\Collection;
 use CommerceMLParser\ORM\Model;
 
@@ -26,17 +17,17 @@ class Partner extends Model implements IdModel
     use PartnerProperty;
 
     /** @var  string */
-    protected $id;
+    protected string $id;
     /** @var  string */
-    protected $name;
+    protected string $name;
     /** @var  string */
-    protected $comment;
+    protected string $comment;
     /** @var  Address */
-    protected $address;
+    protected Address $address;
     /** @var Collection|Contact[]  */
-    protected $contacts;
+    protected array|Collection $contacts;
     /** @var array  */
-    protected $agents = [];
+    protected array $agents = [];
 
 
     public function __construct(\SimpleXMLElement $xml)
@@ -60,7 +51,7 @@ class Partner extends Model implements IdModel
     /**
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -68,7 +59,7 @@ class Partner extends Model implements IdModel
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -76,7 +67,7 @@ class Partner extends Model implements IdModel
     /**
      * @return string
      */
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
@@ -84,7 +75,7 @@ class Partner extends Model implements IdModel
     /**
      * @return Address
      */
-    public function getAddress()
+    public function getAddress(): Address
     {
         return $this->address;
     }
@@ -92,7 +83,7 @@ class Partner extends Model implements IdModel
     /**
      * @return Collection|Contact[]
      */
-    public function getContacts()
+    public function getContacts(): array|Collection
     {
         return $this->contacts;
     }

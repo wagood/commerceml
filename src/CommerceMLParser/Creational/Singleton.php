@@ -16,14 +16,16 @@ trait Singleton
 
     /**
      * Creates the original or retrieves the stored singleton instance
+     *
      * @return static
+     * @throws \ReflectionException
      */
-    public static function getInstance()
+    public static function getInstance(): static
     {
         if (!static::$instance) {
             static::$instance = (new \ReflectionClass(get_called_class()))
                 ->newInstanceWithoutConstructor();
-            call_user_func_array([static::$instance, "__init"], func_get_args());
+            call_user_func_array([static::$instance, "_init"], func_get_args());
         }
 
         return static::$instance;
@@ -32,7 +34,7 @@ trait Singleton
     /**
      * Init Singleton function
      */
-    protected function __init () {}
+    protected function _init () {}
 
     /**
      * The constructor is disabled

@@ -1,31 +1,27 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivan Koretskiy aka gillbeits[at]gmail.com
- * Date: 20/04/15
- * Time: 14:14
- */
-
 namespace CommerceMLParser\Event;
-
 
 use CommerceMLParser\Event;
 use CommerceMLParser\Model\PriceType;
 
+/**
+ * Class PriceTypeEvent
+ * @package CommerceMLParser
+ */
 class PriceTypeEvent extends Event {
 
-    protected $priceType;
+    protected PriceType $priceType;
 
-    function __construct(PriceType $priceType)
+    public function __construct(PriceType $priceType)
     {
         $this->priceType = $priceType;
-        call_user_func_array('parent::__construct', func_get_args());
+        parent::__construct($priceType);
     }
 
     /**
      * @return PriceType
      */
-    public function getPriceType()
+    public function getPriceType(): PriceType
     {
         return $this->priceType;
     }

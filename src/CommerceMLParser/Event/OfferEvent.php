@@ -1,33 +1,27 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivan Koretskiy aka gillbeits[at]gmail.com
- * Date: 20/04/15
- * Time: 14:14
- */
-
 namespace CommerceMLParser\Event;
-
 
 use CommerceMLParser\Event;
 use CommerceMLParser\Model\Offer;
 
+/**
+ * Class OfferEvent
+ * @package CommerceMLParser
+ */
 class OfferEvent extends Event {
-    protected $offer;
+    protected Offer $offer;
 
-    function __construct(Offer $offer)
+    public function __construct(Offer $offer)
     {
         $this->offer = $offer;
-        call_user_func_array('parent::__construct', func_get_args());
+        parent::__construct($offer);
     }
 
     /**
      * @return Offer
      */
-    public function getOffer()
+    public function getOffer(): Offer
     {
         return $this->offer;
     }
-
-
 }

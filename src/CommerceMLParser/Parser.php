@@ -1,56 +1,49 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivan Koretskiy aka gillbeits[at]gmail.com
- * Date: 17/04/15
- * Time: 19:47
- */
 
 namespace CommerceMLParser;
 
-
 use CommerceMLParser\Creational\Singleton;
-use CommerceMLParser\Event\ProductEvent;
 use CommerceMLParser\Event\StartEvent;
 use CommerceMLParser\Exception\NoEventException;
+use CommerceMLParser\Exception\NoObjectException;
+use CommerceMLParser\Exception\NoPathException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class Parser
+ *
  * @package CommerceMLParser
  *
  * @method static Parser getInstance(Factory $factory = null)
  */
-class Parser extends EventDispatcher {
+class Parser extends EventDispatcher
+{
     use Singleton;
 
-    /** @var \XMLReader  */
-    protected $xmlReader;
-    /** @var Factory  */
-    protected $factory;
-    /** @var array|callable[]  */
-    protected $callable = [];
+    /** @var \XMLReader */
+    protected \XMLReader $xmlReader;
+    /** @var Factory */
+    protected Factory $factory;
+    /** @var array|callable[] */
+    protected array $callable = [];
     /** @var  \SplFileObject */
-    protected $currentFile;
+    protected \SplFileObject $currentFile;
 
-    /** @var int  */
-    private $bulk_count = 0;
-    /** @var array  */
-    private $path = [];
-    /** @var array  */
-    private $bulk_rows = [];
-    /** @var array  */
-    private $bulk_rows_counter = [];
+    /** @var int */
+    private int $bulk_count = 0;
+    /** @var array */
+    private array $path = [];
+    /** @var array */
+    private array $bulk_rows = [];
+    /** @var array */
+    private array $bulk_rows_counter = [];
 
     /**
      * @param Factory|null $factory
      */
-    protected function __init(Factory $factory = null)
+    protected function _init(Factory $factory = null): void
     {
-        if (null == $factory) {
-            $factory = new Factory();
-            $this->factory = $factory;
-        }
+        $this->factory = (null === $factory) ? new Factory() : $factory;
 
         $this->xmlReader = new \XMLReader();
         // Default parse rules
@@ -60,10 +53,10 @@ class Parser extends EventDispatcher {
             $event = explode('\\', $object['event']);
             $event = end($event);
 
-            $this->addListener($event, function (Event $e, $eventName, EventDispatcher $dispatcher) {
+            $this->addListener($event, function(Event $e, $eventName, EventDispatcher $dispatcher) {
                 $_e = StartEvent::getInstance($name = $eventName . 'Start');
                 if (!$_e->isPropagationStopped()) {
-                    $dispatcher->dispatch($name, $_e);
+                    $dispatcher->dispatch($_e, $name);
                     $_e->stopPropagation();
                 }
             });
@@ -73,22 +66,22 @@ class Parser extends EventDispatcher {
     /**
      * @return callable
      */
-    protected function dispatchObjectCallable()
+    protected function dispatchObjectCallable(): callable
     {
-        return function ($object, $self) {
+        return function($object, $self) {
             if (!class_exists($object[1]['event'])) {
                 throw new NoEventException($object[1]);
             }
             $event = explode('\\', $object[1]['event']);
             $event = end($event);
-            $this->dispatch($event, new $object[1]['event']($object[0], $self));
+            $this->dispatch(new $object[1]['event']($object[0], $self), $event);
         };
     }
 
     /**
      * @return array
      */
-    public function getBulkRowsCounter($event)
+    public function getBulkRowsCounter($event): array
     {
         return $this->bulk_rows_counter[$event];
     }
@@ -106,7 +99,7 @@ class Parser extends EventDispatcher {
     /**
      * @return \SplFileObject
      */
-    public function getCurrentFile()
+    public function getCurrentFile(): \SplFileObject
     {
         return $this->currentFile;
     }
@@ -116,25 +109,28 @@ class Parser extends EventDispatcher {
      * @param callable|callback $callable
      * @return $this
      */
-    public function registerPath($path, $callable)
+    public function registerPath($path, $callable): static
     {
         $this->callable[$path] = $callable;
         return $this;
     }
 
-    protected function read()
+    /**
+     * @throws NoObjectException
+     * @throws NoPathException
+     */
+    protected function read(): void
     {
-        $shop = null;
         $xml = $this->xmlReader;
         while ($xml->read()) {
-            if ($xml->nodeType == \XMLReader::END_ELEMENT) {
+            if ($xml->nodeType === \XMLReader::END_ELEMENT) {
                 array_pop($this->path);
                 continue;
             }
 
 
-            if ($xml->nodeType == \XMLReader::ELEMENT) {
-                array_push($this->path, $xml->name);
+            if ($xml->nodeType === \XMLReader::ELEMENT) {
+                $this->path[] = $xml->name;
                 $path = implode('/', $this->path);
 
                 if ($xml->isEmptyElement) {
@@ -143,14 +139,14 @@ class Parser extends EventDispatcher {
 
                 if (isset($this->callable[$path])) {
                     $object = $this->factory->createObject($path, $this->loadElementXml());
-                    call_user_func_array($this->callable[$path], [$object, $this]);
+                    call_user_func($this->callable[$path], $object, $this);
                 }
             }
         }
 
         foreach ($this->bulk_rows as $event => $rows) {
             if (!empty($rows)) {
-                $this->dispatch('BulkUpload', new BulkEvent($event, $this));
+                $this->dispatch(new BulkEvent($event, $this), 'BulkUpload');
             }
         }
     }
@@ -160,20 +156,20 @@ class Parser extends EventDispatcher {
         $this->bulk_rows[$event][] = $obj;
         @$this->bulk_rows_counter[$event]++;
         if (count($this->bulk_rows[$event]) >= $this->bulk_count) {
-            $this->dispatch('BulkUpload', new BulkEvent($event, $this));
+            $this->dispatch(new BulkEvent($event, $this), 'BulkUpload');
             $this->bulk_rows[$event] = [];
         }
     }
 
     public function getRows($event = null)
     {
-        return null!== $event ? $this->bulk_rows[$event] : $this->bulk_rows;
+        return null !== $event ? $this->bulk_rows[$event] : $this->bulk_rows;
     }
 
     /**
      * @return \SimpleXMLElement
      */
-    protected function loadElementXml()
+    protected function loadElementXml(): \SimpleXMLElement
     {
         $xml = $this->xmlReader->readOuterXml();
 
@@ -183,7 +179,7 @@ class Parser extends EventDispatcher {
     /**
      * @return int
      */
-    public function getBulkCount()
+    public function getBulkCount(): int
     {
         return $this->bulk_count;
     }
@@ -191,7 +187,7 @@ class Parser extends EventDispatcher {
     /**
      * @param int $bulk_count
      */
-    public function setBulkCount($bulk_count)
+    public function setBulkCount(int $bulk_count): static
     {
         $this->bulk_count = $bulk_count;
         return $this;
@@ -200,7 +196,7 @@ class Parser extends EventDispatcher {
     /**
      * @return Factory
      */
-    public function getFactory()
+    public function getFactory(): Factory
     {
         return $this->factory;
     }

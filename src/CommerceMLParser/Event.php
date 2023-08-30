@@ -1,14 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivan Koretskiy aka gillbeits[at]gmail.com
- * Date: 20/04/15
- * Time: 14:17
- */
-
 namespace CommerceMLParser;
 
-use Symfony\Component\EventDispatcher\Event as BaseClass;
+use Symfony\Contracts\EventDispatcher\Event as BaseClass;
 
 /**
  * Class Event
@@ -16,9 +9,9 @@ use Symfony\Component\EventDispatcher\Event as BaseClass;
  */
 class Event extends BaseClass {
     /** @var Parser  */
-    protected $parser;
+    protected mixed $parser;
 
-    function __construct()
+    public function __construct()
     {
         $args = func_get_args();
         $this->parser = end($args);
@@ -27,7 +20,7 @@ class Event extends BaseClass {
     /**
      * @return Parser
      */
-    public function getParser()
+    public function getParser(): Parser
     {
         return $this->parser;
     }

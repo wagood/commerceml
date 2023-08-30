@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivan Koretskiy aka gillbeits[at]gmail.com
- * Date: 17.12.15
- * Time: 12:39
- */
-
 namespace CommerceMLParser\Model\Traits;
-
 
 use CommerceMLParser\Model\Types\Address;
 
@@ -20,36 +12,35 @@ use CommerceMLParser\Model\Types\Address;
 trait PartnerProperty
 {
     /** @var  string */
-    protected $officialName;
+    protected string $officialName;
     /** @var Address  */
-    protected $partnerAddress;
+    protected Address $partnerAddress;
     /** @var  string */
-    protected $inn;
+    protected string $inn;
     /** @var  string */
-    protected $kpp;
+    protected string $kpp;
     /** @var string  */
-    protected $mainActivity;
+    protected string $mainActivity;
     /** @var  string */
-    protected $egrpo;
+    protected string $egrpo;
     /** @var  string */
-    protected $okvd;
+    protected string $okvd;
     /** @var  string */
-    protected $okdp;
+    protected string $okdp;
     /** @var  string */
-    protected $okopf;
+    protected string $okopf;
     /** @var  string */
-    protected $okfs;
+    protected string $okfs;
     /** @var  string */
-    protected $okpo;
+    protected string $okpo;
     /** @var  \DateTime */
-    protected $registerDate;
-    protected $head;
-    protected $bankAccounts;
+    protected \DateTime $registerDate;
 
     /**
      * PartnerProperty constructor.
      *
      * @param \SimpleXMLElement $xml
+     * @throws \Exception
      */
     public function __construct(\SimpleXMLElement $xml)
     {

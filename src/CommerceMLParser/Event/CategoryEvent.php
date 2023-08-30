@@ -1,34 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivan Koretskiy aka gillbeits[at]gmail.com
- * Date: 20/04/15
- * Time: 13:26
- */
-
 namespace CommerceMLParser\Event;
-
 
 use CommerceMLParser\Event;
 use CommerceMLParser\Model\Category;
 use CommerceMLParser\Model\CategoryCollection;
 use CommerceMLParser\ORM\Collection;
 
+/**
+ * Class CategoryEvent
+ * @package CommerceMLParser
+ */
 class CategoryEvent extends Event {
 
     /** @var CategoryCollection|Category[]  */
-    protected $categories;
+    protected array|CategoryCollection $categories;
 
-    function __construct(CategoryCollection $categories)
+    public function __construct(CategoryCollection $categories)
     {
         $this->categories = $categories;
-        call_user_func_array('parent::__construct', func_get_args());
+        parent::__construct($categories);
     }
 
     /**
      * @return CategoryCollection
      */
-    public function getCategories()
+    public function getCategories(): CategoryCollection|array
     {
         return $this->categories;
     }
@@ -36,7 +32,7 @@ class CategoryEvent extends Event {
     /**
      * @return CategoryCollection|Category[]
      */
-    public function getFlatCategories()
+    public function getFlatCategories(): CategoryCollection|array|Collection
     {
         $collectionClass = get_class($this->categories);
         /** @var Collection $collection */
@@ -45,7 +41,7 @@ class CategoryEvent extends Event {
             /** @var Category $category */
             foreach ($categories as $category) {
                 $collection->add($category);
-                $recursiveIterator($category->getChilds());
+                $recursiveIterator($category->getChildren());
             }
         };
         $recursiveIterator($this->categories);

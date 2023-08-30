@@ -1,5 +1,4 @@
 <?php
-
 namespace CommerceMLParser\Model;
 
 use CommerceMLParser\Model\Interfaces\HasChild;
@@ -14,17 +13,17 @@ use CommerceMLParser\ORM\Model;
 class Category extends Model implements IdModel, HasChild
 {
     /** @var string $id */
-    protected $id;
+    protected string $id;
     /** @var string $name */
-    protected $name;
+    protected string $name;
     /** @var bool */
-    protected $delmark;
-    /** @var string $parent */
-    protected $parent;
+    protected bool $delmark;
+    /** @var ?string $parent */
+    protected ?string $parent = null;
     /** @var CategoryCollection|Category[]  */
-    protected $categories;
+    protected array|CategoryCollection $categories;
     /** @var  PropertyCollection|Property[] */
-    protected $properties;
+    protected array|PropertyCollection $properties;
 
     /**
      * Create instance from file.
@@ -34,13 +33,16 @@ class Category extends Model implements IdModel, HasChild
     public function __construct(\SimpleXMLElement $xml = null)
     {
         parent::__construct($xml);
-        if (null === $xml) return;
+        if (null === $xml) {
+            return;
+        }
 
         $this->id = (string) $xml->Ид;
         $this->name = (string) $xml->Наименование;
         $this->delmark = (string) $xml->ПометкаУдаления === 'true';
         $this->categories = new CategoryCollection();
         $this->properties = new PropertyCollection();
+        $this->parent = null;
         if ($xml->Свойства) {
             foreach ($xml->Свойства as $property) {
                 $this->properties->add(new Property($property));
@@ -51,7 +53,7 @@ class Category extends Model implements IdModel, HasChild
     /**
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -59,7 +61,7 @@ class Category extends Model implements IdModel, HasChild
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -67,15 +69,15 @@ class Category extends Model implements IdModel, HasChild
     /**
      * @return bool
      */
-    public function getDelmark()
+    public function getDelmark(): bool
     {
         return $this->delmark;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return $this->parent;
     }
@@ -86,7 +88,7 @@ class Category extends Model implements IdModel, HasChild
      * @param Category $category
      * @return void
      */
-    public function addChild($category)
+    public function addChild($category): void
     {
         $category->parent = $this->id;
         $this->categories->add($category);
@@ -95,7 +97,7 @@ class Category extends Model implements IdModel, HasChild
     /**
      * @return Category[]|CategoryCollection
      */
-    public function getChilds()
+    public function getChildren(): CategoryCollection|array
     {
         return $this->categories;
     }
@@ -103,7 +105,7 @@ class Category extends Model implements IdModel, HasChild
     /**
      * @return Property[]|PropertyCollection
      */
-    public function getProperties()
+    public function getProperties(): array|PropertyCollection
     {
         return $this->properties;
     }

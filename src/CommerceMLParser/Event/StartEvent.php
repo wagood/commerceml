@@ -19,7 +19,7 @@ class StartEvent extends Event
     /**
      * @inheritDoc
      */
-    protected function __init()
+    protected function _init()
     {
         call_user_func_array('parent::__construct', func_get_args());
     }

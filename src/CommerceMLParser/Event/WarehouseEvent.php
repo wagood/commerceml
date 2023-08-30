@@ -1,33 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Andrey Shertsinger <andrey@shertsinger.ru>
- * Date: 17/05/2017
- * Time: 01:41
- */
-
 namespace CommerceMLParser\Event;
-
 
 use CommerceMLParser\Event;
 use CommerceMLParser\Model\Warehouse;
 
+/**
+ * Class WarehouseEvent
+ * @package CommerceMLParser
+ */
 class WarehouseEvent extends Event {
 
-    protected $warehouse;
+    protected Warehouse $warehouse;
 
-    function __construct(Warehouse $priceType)
+    public function __construct(Warehouse $priceType)
     {
         $this->warehouse = $priceType;
-        call_user_func_array('parent::__construct', func_get_args());
+        parent::__construct($priceType);
     }
 
     /**
      * @return Warehouse
      */
-    public function getWarehouse()
+    public function getWarehouse(): Warehouse
     {
         return $this->warehouse;
     }
-
 }

@@ -1,5 +1,5 @@
 {
-    "name": "karakum/commerceml",
+    "name": "wagood/commerceml",
     "type": "library",
     "description": "Library for CommerceML 2.0 parser",
     "keywords": ["parser", "commerceml", "xml"],
@@ -12,11 +12,16 @@
         {
             "name": "Andrey Shertsinger",
             "email": "andrey@shertsinger.ru"
+        },
+        {
+            "name": "Aleksey Gavrilov",
+            "email": "wagood@yandex.ru"
         }
     ],
     "require": {
-        "php": ">=5.4",
-        "symfony/event-dispatcher": ">=2.1"
+        "php": ">=8.0",
+        "symfony/event-dispatcher": ">=6.0",
+        "ext-xmlreader": "*"
     },
     "minimum-stability": "dev",
     "autoload": {

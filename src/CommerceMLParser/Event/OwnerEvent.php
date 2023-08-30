@@ -1,33 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Andrey Shertsinger <andrey@shertsinger.ru>
- * Date: 20/05/2017
- * Time: 02:07
- */
-
 namespace CommerceMLParser\Event;
 
 use CommerceMLParser\Event;
 use CommerceMLParser\Model\Types\Partner;
 
+/**
+ * Class OwnerEvent
+ * @package CommerceMLParser
+ */
 class OwnerEvent extends Event
 {
+    protected Partner $partner;
 
-    protected $partner;
-
-    function __construct(Partner $partner)
+    public function __construct(Partner $partner)
     {
         $this->partner = $partner;
-        call_user_func_array('parent::__construct', func_get_args());
+        parent::__construct($partner);
     }
 
     /**
      * @return Partner
      */
-    public function getPartner()
+    public function getPartner(): Partner
     {
         return $this->partner;
     }
-
 }

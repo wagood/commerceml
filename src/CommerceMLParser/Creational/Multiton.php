@@ -31,7 +31,7 @@ trait Multiton
             }
             static::$instance[$key] = (new \ReflectionClass(get_called_class()))
                 ->newInstanceWithoutConstructor();
-            call_user_func_array([static::$instance[$key], "__init"], func_get_args());
+            call_user_func_array([static::$instance[$key], "_init"], func_get_args());
         }
 
         return static::$instance[$key];
@@ -40,6 +40,6 @@ trait Multiton
     /**
      * Init Multiton function
      */
-    protected function __init () {}
+    protected function _init () {}
 
 }
