@@ -21,7 +21,7 @@ PHP CommerceML 2
 ```php
 $parser = \CommerceMLParser\Parser::getInstance(); // Создание экземпляра класса парсера
 $parser->addListener("CategoryEvent", function (\CommerceMLParser\Event\CategoryEvent $categoryEvent) {
-    $categories = $categoryEvent->getCategory()->fetch(); // array of Category
+    $categories = $categoryEvent->getFlatCategories(); // get collection of Category's
 }); // добавление функции обработки события CategoryEvent
 $parser->parse($pathToImportXmlFile); // полный путь до файла import.xml (Commerce ML 2) выгрузки из 1с
 ```
