@@ -3,14 +3,12 @@ namespace CommerceMLParser\Model;
 
 use CommerceMLParser\Model\Interfaces\HasChild;
 use CommerceMLParser\Model\Interfaces\IdModel;
-use CommerceMLParser\ORM\Collection;
-use CommerceMLParser\ORM\Model;
 
 /**
  * Class Category
  * @package CommerceMLParser\Model
  */
-class Category extends Model implements IdModel, HasChild
+class Category implements IdModel, HasChild
 {
     /** @var string $id */
     protected string $id;
@@ -32,7 +30,6 @@ class Category extends Model implements IdModel, HasChild
      */
     public function __construct(\SimpleXMLElement $xml = null)
     {
-        parent::__construct($xml);
         if (null === $xml) {
             return;
         }
