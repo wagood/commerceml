@@ -1,29 +1,26 @@
 <?php
-
 namespace CommerceMLParser\Model;
 
-
 use CommerceMLParser\Model\Interfaces\IdModel;
-use CommerceMLParser\ORM\Model;
 
-class Property extends Model implements IdModel
+class Property implements IdModel
 {
     /** @var string */
-    protected $id;
+    protected string $id;
     /** @var string */
-    protected $name;
+    protected string $name;
     /** @var array */
-    protected $values = array();
+    protected array $values = array();
     /** @var string */
-    protected $description;
+    protected string $description;
     /** @var bool */
-    protected $isRequired;
+    protected bool $isRequired;
     /** @var bool */
-    protected $isList;
+    protected bool $isList;
     /** @var string */
-    protected $type;
+    protected string $type;
     /** @var bool ; */
-    protected $isUsed;
+    protected bool $isUsed;
 
     /**
      * Property constructor.
@@ -31,13 +28,12 @@ class Property extends Model implements IdModel
      */
     public function __construct(\SimpleXMLElement $xml = null)
     {
-        parent::__construct($xml);
         if (null === $xml) return;
 
         $this->id = (string)$xml->Ид;
         $this->name = (string)$xml->Наименование;
         $valueType = (string)$xml->ТипЗначений;
-        if ($valueType == 'Справочник' && $xml->ВариантыЗначений) {
+        if ($valueType === 'Справочник' && $xml->ВариантыЗначений) {
             foreach ($xml->ВариантыЗначений->Справочник as $value) {
                 $id = (string)$value->ИдЗначения;
                 $this->values[$id] = (string)$value->Значение;
@@ -53,7 +49,7 @@ class Property extends Model implements IdModel
     /**
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -61,7 +57,7 @@ class Property extends Model implements IdModel
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -69,7 +65,7 @@ class Property extends Model implements IdModel
     /**
      * @return array
      */
-    public function getValues()
+    public function getValues(): array
     {
         return $this->values;
     }
@@ -77,7 +73,7 @@ class Property extends Model implements IdModel
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -85,7 +81,7 @@ class Property extends Model implements IdModel
     /**
      * @return boolean
      */
-    public function isIsRequired()
+    public function isIsRequired(): bool
     {
         return $this->isRequired;
     }
@@ -93,7 +89,7 @@ class Property extends Model implements IdModel
     /**
      * @return boolean
      */
-    public function isIsList()
+    public function isIsList(): bool
     {
         return $this->isList;
     }
@@ -109,7 +105,7 @@ class Property extends Model implements IdModel
     /**
      * @return boolean
      */
-    public function isIsUsed()
+    public function isIsUsed(): bool
     {
         return $this->isUsed;
     }

@@ -1,19 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ivan Koretskiy aka gillbeits[at]gmail.com
- * Date: 20/04/15
- * Time: 12:33
- */
-
 namespace CommerceMLParser;
-
 
 use CommerceMLParser\Exception\NoObjectException;
 use CommerceMLParser\Exception\NoPathException;
 use CommerceMLParser\Model\Interfaces\HasChild;
 use CommerceMLParser\ORM\Collection;
-use CommerceMLParser\ORM\Model;
 
 class Factory {
     /**
