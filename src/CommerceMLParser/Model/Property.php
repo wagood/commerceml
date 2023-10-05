@@ -109,4 +109,12 @@ class Property implements IdModel
     {
         return $this->isUsed;
     }
+
+    /**
+     * @return bool
+     */
+    public function getDelmark(): bool
+    {
+        return $this->delmark;
+    }
 }
