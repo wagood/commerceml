@@ -1,7 +1,5 @@
 <?php
-
 namespace CommerceMLParser\Model;
-
 
 use CommerceMLParser\Model\Interfaces\IdModel;
 use CommerceMLParser\Model\Types\BaseUnit;
@@ -14,7 +12,7 @@ use CommerceMLParser\ORM\Collection;
 use CommerceMLParser\ORM\Model;
 use CommerceMLParser\Parser;
 
-class Product extends Model implements IdModel
+class Product /*extends Model*/ implements IdModel
 {
     /** @var string */
     protected $id;
@@ -37,13 +35,12 @@ class Product extends Model implements IdModel
     /** @var Collection|ProductCharacteristic[]  */
     protected $characteristics;
     /** @var Collection|BaseUnit[] */
-    protected $baseUnit;
+    protected array|Collection $baseUnit;
     /** @var Collection|TaxRate[]  */
-    protected $taxRate;
+    protected array|Collection $taxRate;
     /** @var Collection|string[]  */
-    protected $images;
-    /** @var Collection|Partner[] */
-    protected $manufacturer;
+    protected array|Collection $images;
+
 
     /**
      * Class constructor.
@@ -51,8 +48,10 @@ class Product extends Model implements IdModel
      */
     public function __construct(\SimpleXMLElement $xml = null)
     {
-        parent::__construct($xml);
-        if (null === $xml) return;
+        /*parent::__construct($xml);*/
+        if (null === $xml) {
+            return;
+        }
 
         $this->categories = new Collection();
         $this->requisites = new Collection();
@@ -228,7 +227,7 @@ class Product extends Model implements IdModel
     }
 
     /**
-     * @return Partner
+     * @return Collection|ManuPartner[]
      */
     public function getManufacturer()
     {

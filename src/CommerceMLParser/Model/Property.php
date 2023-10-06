@@ -31,7 +31,9 @@ class Property implements IdModel
      */
     public function __construct(\SimpleXMLElement $xml = null)
     {
-        if (null === $xml) return;
+        if (null === $xml) {
+            return;
+        }
 
         $this->id = (string)$xml->Ид;
         $this->name = (string)$xml->Наименование;

@@ -3,16 +3,15 @@
 namespace CommerceMLParser\Model;
 
 use CommerceMLParser\Model\Interfaces\IdModel;
-use CommerceMLParser\ORM\Model;
 
-class PriceType extends Model implements IdModel
+class PriceType implements IdModel
 {
     /** @var string */
-    protected $id;
+    protected string $id;
     /** @var string */
-    protected $type;
+    protected string $type;
     /** @var string */
-    protected $currency;
+    protected string $currency;
 
     /**
      * @param \SimpleXMLElement $xml
@@ -20,18 +19,17 @@ class PriceType extends Model implements IdModel
      */
     public function __construct(\SimpleXMLElement $xml = null)
     {
-        parent::__construct($xml);
         if (!is_null($xml)) {
-            $this->id = (string) $xml->Ид;
-            $this->type = (string) $xml->Наименование;
-            $this->currency = (string) $xml->Валюта;
+            $this->id = (string)$xml->Ид;
+            $this->type = (string)$xml->Наименование;
+            $this->currency = (string)$xml->Валюта;
         }
     }
 
     /**
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -39,7 +37,7 @@ class PriceType extends Model implements IdModel
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -47,7 +45,7 @@ class PriceType extends Model implements IdModel
     /**
      * @return string
      */
-    public function getCurrency()
+    public function getCurrency(): string
     {
         return $this->currency;
     }
