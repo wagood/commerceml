@@ -12,15 +12,15 @@ namespace CommerceMLParser\Model\Types;
 class BaseUnit
 {
     /** @var string  */
-    protected $value;
+    protected string $value;
     /** @var string  */
-    protected $code;
+    protected string $code;
     /** @var string  */
-    protected $nameFull;
+    protected string $nameFull;
     /** @var string  */
-    protected $nameShort;
+    protected string $nameShort;
     /** @var string  */
-    protected $nameInterShort;
+    protected string $nameInterShort;
 
     public function __construct(\SimpleXMLElement $xml) {
         $this->value = (string)$xml;

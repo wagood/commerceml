@@ -12,9 +12,9 @@ namespace CommerceMLParser\Model\Types;
 class TaxRate
 {
     /** @var string  */
-    protected $name;
+    protected string $name;
     /** @var string  */
-    protected $rate;
+    protected string $rate;
 
     /**
      * TaxRate constructor.

@@ -14,7 +14,7 @@ use CommerceMLParser\Model\Interfaces\IdModel;
 final class PropertyValue extends AbstractValue implements IdModel
 {
     /** @var string  */
-    protected $id;
+    protected string $id;
 
     /**
      * PropertyValue constructor.

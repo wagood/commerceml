@@ -8,14 +8,12 @@
 
 namespace CommerceMLParser\Model\Types;
 
-
 use CommerceMLParser\Model\Interfaces\IdModel;
-use CommerceMLParser\ORM\Model;
 
-class Price extends Model implements IdModel
+class Price implements IdModel
 {
     /** @var  string ИдТипаЦены */
-    protected $id;
+    protected string $id;
     /** @var string Представление */
     protected $showing;
     /** @var  float ЦенаЗаЕдиницу */
@@ -28,7 +26,6 @@ class Price extends Model implements IdModel
      */
     public function __construct(\SimpleXMLElement $xml)
     {
-        parent::__construct($xml);
         $this->id = (string)$xml->ИдТипаЦены;
         $this->showing = (string)$xml->Представление;
         $this->price = (string)$xml->ЦенаЗаЕдиницу;

@@ -14,7 +14,7 @@ use CommerceMLParser\Model\Interfaces\IdModel;
 final class ProductCharacteristic extends AbstractValue implements IdModel
 {
     /** @var string  */
-    protected $id;
+    protected string $id;
 
     /**
      * ProductCharacteristic constructor.

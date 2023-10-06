@@ -9,7 +9,6 @@
 namespace CommerceMLParser\Model\Types;
 
 use CommerceMLParser\Model\Interfaces\IdModel;
-use CommerceMLParser\ORM\Model;
 
 /**
  * Class WarehouseStock
@@ -17,19 +16,18 @@ use CommerceMLParser\ORM\Model;
  *
  * xsd:complexType name="ОстаткиПоСкладам"
  */
-class WarehouseStock extends Model implements IdModel
+class WarehouseStock implements IdModel
 {
     /** @var string ИдСклада */
-    protected $id;
+    protected string $id;
     /** @var float КоличествоНаСкладе */
-    protected $quantity;
+    protected string|float $quantity;
 
     /**
      * @inheritDoc
      */
     public function __construct(\SimpleXMLElement $xml)
     {
-        parent::__construct($xml);
         $this->id = (string)$xml->attributes()->ИдСклада;
         $this->quantity = (string)$xml->attributes()->КоличествоНаСкладе;
     }

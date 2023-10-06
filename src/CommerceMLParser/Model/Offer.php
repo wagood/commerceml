@@ -1,7 +1,5 @@
 <?php
-
 namespace CommerceMLParser\Model;
-
 
 use CommerceMLParser\Model\Types\Price;
 use CommerceMLParser\Model\Types\WarehouseStock;
@@ -10,11 +8,11 @@ use CommerceMLParser\ORM\Collection;
 class Offer extends Product
 {
     /** @var float Количество */
-    protected $quantity;
+    protected float $quantity;
     /** @var Collection|Price[] Цены  */
-    protected $prices;
+    protected array|Collection $prices;
     /** @var Collection|WarehouseStock[] Склад */
-    protected $warehouses;
+    protected array|Collection $warehouses;
 
     public function __construct(\SimpleXMLElement $xml)
     {
@@ -44,7 +42,7 @@ class Offer extends Product
     /**
      * @return float
      */
-    public function getQuantity()
+    public function getQuantity(): float
     {
         return $this->quantity;
     }

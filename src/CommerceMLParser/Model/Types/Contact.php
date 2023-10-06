@@ -2,24 +2,20 @@
 
 namespace CommerceMLParser\Model\Types;
 
-use CommerceMLParser\ORM\Model;
-
-class Contact extends Model
+class Contact
 {
     /** @var string */
-    protected $type;
+    protected string $type;
     /** @var string */
-    protected $value;
+    protected string $value;
     /** @var string */
-    protected $comment;
+    protected ?string $comment;
 
     /**
      * @param \SimpleXMLElement $xml
-     * @return Contact
      */
     public function __construct(\SimpleXMLElement $xml = null)
     {
-        parent::__construct($xml);
         if (!is_null($xml)) {
             $this->type = (string) $xml->Тип;
             $this->value = (string) $xml->Значение;
@@ -49,7 +45,7 @@ class Contact extends Model
     /**
      * @return string
      */
-    public function getComment()
+    public function getComment(): ?string
     {
         return $this->comment;
     }
