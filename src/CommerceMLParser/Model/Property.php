@@ -47,6 +47,7 @@ class Property implements IdModel
         $this->isList = (string)$xml->Множественное === 'true';
         $this->type = (string)$xml->ТипЗначений;
         $this->isUsed = (string)$xml->ИспользованиеСвойства === 'true';
+        $this->delmark = (string) $xml->ПометкаУдаления === 'true';
     }
 
     /**
