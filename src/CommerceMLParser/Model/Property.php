@@ -21,6 +21,9 @@ class Property implements IdModel
     protected string $type;
     /** @var bool ; */
     protected bool $isUsed;
+    /** @var bool ; */
+    protected bool $delmark;
+
 
     /**
      * Property constructor.
